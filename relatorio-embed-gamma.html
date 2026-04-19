@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatório Financeiro - Eixos</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: transparent;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .relatorio-container {
+            max-width: 100%;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, #1B3A6B 0%, #2d5aa6 100%);
+            color: white;
+        }
+        
+        .header h1 {
+            font-size: 36px;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 30px 20px;
+        }
+        
+        .info-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .info-item {
+            padding: 12px 15px;
+            background: #f0f8ff;
+            border-left: 3px solid #1B3A6B;
+            font-size: 14px;
+        }
+        
+        .info-label {
+            color: #1B3A6B;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 4px;
+        }
+        
+        .info-value {
+            color: #333;
+            font-size: 15px;
+        }
+        
+        .metric-container {
+            margin-bottom: 25px;
+        }
+        
+        .metric-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #ddd;
+        }
+        
+        .metric-title.faturacao { color: #1B3A6B; }
+        .metric-title.lucro { color: #27AE60; }
+        .metric-title.caixa { color: #FF6B35; }
+        
+        .metric-box {
+            padding: 25px;
+            border-radius: 8px;
+            text-align: center;
+            color: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        .metric-label {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            opacity: 0.95;
+        }
+        
+        .metric-value {
+            font-size: 40px;
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .faturacao-box { background: linear-gradient(135deg, #1B3A6B 0%, #2d5aa6 100%); }
+        .lucro-box { background: linear-gradient(135deg, #27AE60 0%, #1e8449 100%); }
+        .caixa-box { background: linear-gradient(135deg, #FF6B35 0%, #e55100 100%); }
+        
+        .percentagens-section {
+            background: #f0f8ff;
+            border: 2px solid #1B3A6B;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .percentagens-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #1B3A6B;
+            margin-bottom: 15px;
+        }
+        
+        .percentagens-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+        
+        .perc-item {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+            border-left: 3px solid #1B3A6B;
+        }
+        
+        .perc-label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        
+        .perc-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1B3A6B;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .edit-section {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 6px;
+            padding: 15px;
+            margin-top: 20px;
+            font-size: 13px;
+        }
+        
+        .edit-section strong {
+            color: #ff6b35;
+        }
+        
+        .input-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .input-item {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .input-item label {
+            font-size: 12px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .input-item input {
+            padding: 8px 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .input-item input:focus {
+            outline: none;
+            border-color: #1B3A6B;
+            background: #f0f8ff;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background: #1B3A6B;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #142850;
+        }
+        
+        .btn-secondary {
+            background: #ddd;
+            color: #333;
+        }
+        
+        .btn-secondary:hover {
+            background: #ccc;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            border-top: 1px solid #eee;
+            font-size: 12px;
+            color: #999;
+        }
+        
+        @media (max-width: 600px) {
+            .header h1 { font-size: 28px; }
+            .metric-value { font-size: 32px; }
+            .info-row { grid-template-columns: 1fr; }
+            .percentagens-grid { grid-template-columns: 1fr; }
+            .input-group { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="relatorio-container">
+        <!-- CABEÇALHO -->
+        <div class="header">
+            <h1>RELATÓRIO FINANCEIRO</h1>
+            <p>Faturação | Lucro | Tesouraria</p>
+        </div>
+        
+        <div class="content">
+            <!-- INFORMAÇÕES -->
+            <div class="info-row">
+                <div class="info-item">
+                    <span class="info-label">Empresa</span>
+                    <span class="info-value" id="empresa">[Nome da Empresa]</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Período</span>
+                    <span class="info-value">2025</span>
+                </div>
+            </div>
+            
+            <!-- FATURAÇÃO -->
+            <div class="metric-container">
+                <div class="metric-title faturacao">FATURAÇÃO</div>
+                <div class="metric-box faturacao-box">
+                    <div class="metric-label">Total Faturado</div>
+                    <div class="metric-value" id="faturacao">€ 0,00</div>
+                </div>
+            </div>
+            
+            <!-- LUCRO -->
+            <div class="metric-container">
+                <div class="metric-title lucro">LUCRO LÍQUIDO</div>
+                <div class="metric-box lucro-box">
+                    <div class="metric-label">Resultado Líquido</div>
+                    <div class="metric-value" id="lucro">€ 0,00</div>
+                </div>
+            </div>
+            
+            <!-- DINHEIRO EM CAIXA -->
+            <div class="metric-container">
+                <div class="metric-title caixa">DINHEIRO EM CAIXA</div>
+                <div class="metric-box caixa-box">
+                    <div class="metric-label">Saldo de Caixa</div>
+                    <div class="metric-value" id="caixa">€ 0,00</div>
+                </div>
+            </div>
+            
+            <!-- PERCENTAGENS -->
+            <div class="percentagens-section">
+                <div class="percentagens-title">PERCENTAGENS DE PERFORMANCE</div>
+                <div class="percentagens-grid">
+                    <div class="perc-item">
+                        <div class="perc-label">Margem Líquida %</div>
+                        <div class="perc-value" id="margemLiquida">[0,0%]</div>
+                    </div>
+                    <div class="perc-item">
+                        <div class="perc-label">Crescimento Faturação %</div>
+                        <div class="perc-value" id="crescFaturacao">[+0,0%]</div>
+                    </div>
+                    <div class="perc-item">
+                        <div class="perc-label">Crescimento Lucro %</div>
+                        <div class="perc-value" id="crescLucro">[+0,0%]</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- EDITAR DADOS -->
+            <div class="edit-section">
+                <strong>✏️ EDITAR DADOS:</strong>
+                <div class="input-group">
+                    <div class="input-item">
+                        <label>Empresa:</label>
+                        <input type="text" id="inputEmpresa" placeholder="Nome da empresa" value="[Nome da Empresa]">
+                    </div>
+                    <div class="input-item">
+                        <label>Faturação (€):</label>
+                        <input type="number" id="inputFaturacao" placeholder="0,00" value="0">
+                    </div>
+                    <div class="input-item">
+                        <label>Lucro (€):</label>
+                        <input type="number" id="inputLucro" placeholder="0,00" value="0">
+                    </div>
+                    <div class="input-item">
+                        <label>Caixa (€):</label>
+                        <input type="number" id="inputCaixa" placeholder="0,00" value="0">
+                    </div>
+                    <div class="input-item">
+                        <label>Margem Líquida (%):</label>
+                        <input type="number" id="inputMargem" placeholder="0,0" value="0" step="0.1">
+                    </div>
+                    <div class="input-item">
+                        <label>Cresc. Faturação (%):</label>
+                        <input type="number" id="inputCrescFat" placeholder="0,0" value="0" step="0.1">
+                    </div>
+                    <div class="input-item">
+                        <label>Cresc. Lucro (%):</label>
+                        <input type="number" id="inputCrescLuc" placeholder="0,0" value="0" step="0.1">
+                    </div>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn btn-primary" onclick="atualizar()">💾 GUARDAR</button>
+                    <button class="btn btn-secondary" onclick="limpar()">🗑️ LIMPAR</button>
+                    <button class="btn btn-secondary" onclick="imprimir()">🖨️ IMPRIMIR/PDF</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- RODAPÉ -->
+        <div class="footer">
+            <strong>EIXOS - Consultoria Fiscal</strong><br>
+            Apoio ao Fecho de Contas e Análise Financeira
+        </div>
+    </div>
+    
+    <script>
+        function formatarMoeda(valor) {
+            return parseFloat(valor).toLocaleString('pt-PT', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+        }
+        
+        function atualizar() {
+            const empresa = document.getElementById('inputEmpresa').value || '[Nome da Empresa]';
+            const faturacao = document.getElementById('inputFaturacao').value || '0';
+            const lucro = document.getElementById('inputLucro').value || '0';
+            const caixa = document.getElementById('inputCaixa').value || '0';
+            const margem = document.getElementById('inputMargem').value || '0';
+            const crescFat = document.getElementById('inputCrescFat').value || '0';
+            const crescLuc = document.getElementById('inputCrescLuc').value || '0';
+            
+            document.getElementById('empresa').textContent = empresa;
+            document.getElementById('faturacao').textContent = '€ ' + formatarMoeda(faturacao);
+            document.getElementById('lucro').textContent = '€ ' + formatarMoeda(lucro);
+            document.getElementById('caixa').textContent = '€ ' + formatarMoeda(caixa);
+            document.getElementById('margemLiquida').textContent = parseFloat(margem).toFixed(1) + '%';
+            document.getElementById('crescFaturacao').textContent = (parseFloat(crescFat) > 0 ? '+' : '') + parseFloat(crescFat).toFixed(1) + '%';
+            document.getElementById('crescLucro').textContent = (parseFloat(crescLuc) > 0 ? '+' : '') + parseFloat(crescLuc).toFixed(1) + '%';
+            
+            // Guardar no localStorage
+            localStorage.setItem('relatorio-dados', JSON.stringify({
+                empresa, faturacao, lucro, caixa, margem, crescFat, crescLuc
+            }));
+        }
+        
+        function limpar() {
+            document.getElementById('inputEmpresa').value = '[Nome da Empresa]';
+            document.getElementById('inputFaturacao').value = '0';
+            document.getElementById('inputLucro').value = '0';
+            document.getElementById('inputCaixa').value = '0';
+            document.getElementById('inputMargem').value = '0';
+            document.getElementById('inputCrescFat').value = '0';
+            document.getElementById('inputCrescLuc').value = '0';
+            
+            localStorage.removeItem('relatorio-dados');
+            atualizar();
+        }
+        
+        function imprimir() {
+            window.print();
+        }
+        
+        function carregarDados() {
+            const dados = localStorage.getItem('relatorio-dados');
+            if (dados) {
+                const obj = JSON.parse(dados);
+                document.getElementById('inputEmpresa').value = obj.empresa;
+                document.getElementById('inputFaturacao').value = obj.faturacao;
+                document.getElementById('inputLucro').value = obj.lucro;
+                document.getElementById('inputCaixa').value = obj.caixa;
+                document.getElementById('inputMargem').value = obj.margem;
+                document.getElementById('inputCrescFat').value = obj.crescFat;
+                document.getElementById('inputCrescLuc').value = obj.crescLuc;
+                atualizar();
+            }
+        }
+        
+        window.onload = carregarDados;
+    </script>
+</body>
+</html>

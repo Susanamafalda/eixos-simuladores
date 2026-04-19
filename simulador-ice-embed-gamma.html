@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador ICE - Eixos</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: transparent;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 100%;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, #1B3A6B 0%, #2d5aa6 100%);
+            color: white;
+        }
+        
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 25px 20px;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border-left: 4px solid #1B3A6B;
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #1B3A6B;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-title::before {
+            content: '';
+            width: 30px;
+            height: 30px;
+            background: #1B3A6B;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .section-1::before { content: '1'; }
+        .section-1b::before { content: '2'; }
+        .section-2::before { content: '3'; }
+        .section-3::before { content: '4'; }
+        .section-4::before { content: '5'; }
+        .section-5::before { content: '6'; }
+        
+        .info-box {
+            background: #e3f2fd;
+            border: 1px solid #90caf9;
+            border-radius: 6px;
+            padding: 12px;
+            margin-bottom: 15px;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        
+        .info-box strong {
+            color: #1B3A6B;
+        }
+        
+        .input-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+        
+        .input-item {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .input-item label {
+            font-size: 12px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 4px;
+        }
+        
+        .input-item input {
+            padding: 8px 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+        
+        .input-item input:focus {
+            outline: none;
+            border-color: #1B3A6B;
+            background: #f0f8ff;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 13px;
+        }
+        
+        thead {
+            background: #1B3A6B;
+            color: white;
+        }
+        
+        th {
+            padding: 10px;
+            text-align: left;
+            font-weight: bold;
+        }
+        
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        tbody tr:nth-child(even) {
+            background: #f5f5f5;
+        }
+        
+        .resultado-box {
+            background: linear-gradient(135deg, #27AE60 0%, #1e8449 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            text-align: center;
+        }
+        
+        .resultado-label {
+            font-size: 14px;
+            margin-bottom: 8px;
+            opacity: 0.9;
+        }
+        
+        .resultado-valor {
+            font-size: 32px;
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .campo774 {
+            background: linear-gradient(135deg, #FF6B35 0%, #e55100 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            text-align: center;
+        }
+        
+        .campo774-label {
+            font-size: 12px;
+            margin-bottom: 8px;
+            opacity: 0.9;
+        }
+        
+        .campo774-valor {
+            font-size: 36px;
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background: #1B3A6B;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #142850;
+        }
+        
+        .btn-secondary {
+            background: #ddd;
+            color: #333;
+        }
+        
+        .btn-secondary:hover {
+            background: #ccc;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            border-top: 1px solid #eee;
+            font-size: 12px;
+            color: #999;
+            background: #f9f9f9;
+        }
+        
+        .tnum-right {
+            text-align: right;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 { font-size: 24px; }
+            .input-group { grid-template-columns: 1fr; }
+            .resultado-valor { font-size: 24px; }
+            .campo774-valor { font-size: 28px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- CABEÇALHO -->
+        <div class="header">
+            <h1>SIMULADOR ICE</h1>
+            <p>Incentivo à Capitalização das Empresas</p>
+        </div>
+        
+        <div class="content">
+            <!-- SECÇÃO 1: DADOS DA EMPRESA -->
+            <div class="section section-1">
+                <div class="section-title">Dados da Empresa</div>
+                
+                <div class="input-group">
+                    <div class="input-item">
+                        <label>Nome da Empresa:</label>
+                        <input type="text" id="empresa" value="Eixos, Lda">
+                    </div>
+                    <div class="input-item">
+                        <label>NIF:</label>
+                        <input type="text" id="nif" value="510123456">
+                    </div>
+                    <div class="input-item">
+                        <label>Tipo de Entidade:</label>
+                        <select id="tipo" style="padding: 8px 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 13px;">
+                            <option value="PME">PME</option>
+                            <option value="Micro">Micro</option>
+                            <option value="Grande">Grande</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- SECÇÃO 1B: AUMENTOS E SAÍDAS -->
+            <div class="section section-1b">
+                <div class="section-title">Aumentos e Saídas de Capital (2023-2029)</div>
+                
+                <div class="info-box">
+                    <strong>💡 Como preencher:</strong><br>
+                    <strong>Aumentos:</strong> Lucros aplicados em reservas, créditos convertidos, entradas em dinheiro<br>
+                    <strong>Saídas:</strong> Distribuições, reduções de capital
+                </div>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Ano</th>
+                            <th>Aumentos (€)</th>
+                            <th>Saídas (€)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabela-anos">
+                    </tbody>
+                </table>
+                
+                <div class="resultado-box">
+                    <div class="resultado-label">Somatório Aumentos Líquidos (7 anos)</div>
+                    <div class="resultado-valor" id="somatorio">€ 0,00</div>
+                </div>
+            </div>
+            
+            <!-- SECÇÃO 2: EBITDA FISCAL 2025 -->
+            <div class="section section-2">
+                <div class="section-title">EBITDA Fiscal - Ano de Análise (2025)</div>
+                
+                <div class="info-box">
+                    <strong>💡 Como preencher:</strong><br>
+                    <strong>Lucro Tributável:</strong> Lucro da Demonstração de Resultados 2025<br>
+                    <strong>Gastos de Financiamento Líquidos:</strong> Juros pagos - Rendimentos financeiros<br>
+                    <strong>Depreciações Fiscais:</strong> Amortizações do exercício 2025
+                </div>
+                
+                <div class="input-group">
+                    <div class="input-item">
+                        <label>Lucro Tributável 2025 (€):</label>
+                        <input type="number" id="lucroTrib" value="21700" oninput="calcular()">
+                    </div>
+                    <div class="input-item">
+                        <label>Gastos Financiamento Líquidos (€):</label>
+                        <input type="number" id="gastosFinanc" value="0" oninput="calcular()">
+                    </div>
+                    <div class="input-item">
+                        <label>Depreciações Fiscais (€):</label>
+                        <input type="number" id="depreciacoes" value="5000" oninput="calcular()">
+                    </div>
+                </div>
+                
+                <div class="resultado-box">
+                    <div class="resultado-label">EBITDA Fiscal Calculado</div>
+                    <div class="resultado-valor" id="ebitda">€ 26.700,00</div>
+                </div>
+            </div>
+            
+            <!-- SECÇÃO 3: CÁLCULO ICE -->
+            <div class="section section-3">
+                <div class="section-title">Cálculo ICE 2025</div>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Descrição</th>
+                            <th class="tnum-right">Valor</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>EBITDA Fiscal 2025</td>
+                            <td class="tnum-right"><strong id="calc-ebitda">€ 26.700,00</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Taxa (2025): 4,21%</td>
+                            <td class="tnum-right">×</td>
+                        </tr>
+                        <tr>
+                            <td>Majoração (PME): 1,5×</td>
+                            <td class="tnum-right">×</td>
+                        </tr>
+                        <tr style="background: #fff3cd;">
+                            <td><strong>Benefício Potencial</strong></td>
+                            <td class="tnum-right"><strong id="beneficio">€ 1.685,14</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Limite 30% EBITDA</td>
+                            <td class="tnum-right"><strong id="limite30">€ 8.010,00</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Limite Máximo</td>
+                            <td class="tnum-right"><strong>€ 4.000.000,00</strong></td>
+                        </tr>
+                        <tr style="background: #e8f5e9;">
+                            <td><strong>Dedução ICE Final</strong></td>
+                            <td class="tnum-right"><strong style="color: #27AE60; font-size: 16px;" id="deducao">€ 1.685,14</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- SECÇÃO 4: CAMPO 774 MODELO 22 -->
+            <div class="section section-4">
+                <div class="section-title">Campo 774 - Modelo 22</div>
+                
+                <div class="info-box">
+                    <strong>📌 Onde preencher:</strong><br>
+                    Modelo 22 → Quadro 07 → Campo 774<br>
+                    Anexo D → Quadro 04-C1 (Mapa do ICE)
+                </div>
+                
+                <div class="campo774">
+                    <div class="campo774-label">QUADRO 07 — Campo 774</div>
+                    <div class="campo774-valor" id="campo774">€ 1.685,14</div>
+                    <div class="campo774-label">Incentivo à Capitalização das Empresas</div>
+                </div>
+            </div>
+            
+            <!-- SECÇÃO 5: CONSULTORIA FISCAL -->
+            <div class="section section-5">
+                <div class="section-title">Consultoria Fiscal</div>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Descrição</th>
+                            <th class="tnum-right">Valor (€)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Dedução ICE</td>
+                            <td class="tnum-right"><strong id="cons-deducao">€ 1.685,14</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Economia de IRC (21%)</td>
+                            <td class="tnum-right"><strong style="color: #27AE60;" id="cons-economia">€ 353,89</strong></td>
+                        </tr>
+                        <tr style="background: #e8f5e9;">
+                            <td><strong>Economia Mensal (média)</strong></td>
+                            <td class="tnum-right"><strong style="color: #27AE60; font-size: 14px;" id="cons-mensal">€ 29,49</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="info-box" style="margin-top: 15px;">
+                    <strong>✅ Recomendações:</strong><br>
+                    ✓ Preencha Campo 774 da Modelo 22<br>
+                    ✓ Documente o suporte (escritura + balanço)<br>
+                    ✓ Não distribua lucros desnecessariamente<br>
+                    ✓ Aplique lucros em reservas para próximas deduções<br>
+                    ✓ Valide com contabilista certificado
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn btn-primary" onclick="guardar()">💾 GUARDAR DADOS</button>
+                    <button class="btn btn-secondary" onclick="limpar()">🗑️ LIMPAR TUDO</button>
+                    <button class="btn btn-secondary" onclick="window.print()">🖨️ IMPRIMIR/PDF</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- RODAPÉ -->
+        <div class="footer">
+            <strong>EIXOS - Consultoria Fiscal</strong><br>
+            Apoio ao Fecho de Contas e Análise Financeira<br>
+            <small>Legislação: EBF Art. 43.º-D | CIRC Art. 67.º</small>
+        </div>
+    </div>
+    
+    <script>
+        const anos = ['2023', '2024', '2025', '2026', '2027', '2028', '2029'];
+        const dados = {
+            '2023': { aumentos: 0, saidas: 0 },
+            '2024': { aumentos: 0, saidas: 0 },
+            '2025': { aumentos: 0, saidas: 0 },
+            '2026': { aumentos: 0, saidas: 0 },
+            '2027': { aumentos: 0, saidas: 0 },
+            '2028': { aumentos: 0, saidas: 0 },
+            '2029': { aumentos: 0, saidas: 0 }
+        };
+        
+        function formatarMoeda(valor) {
+            return parseFloat(valor).toLocaleString('pt-PT', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+        }
+        
+        function criarTabelaAnos() {
+            const tbody = document.getElementById('tabela-anos');
+            tbody.innerHTML = '';
+            
+            anos.forEach(ano => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>${ano}</strong></td>
+                    <td><input type="number" data-ano="${ano}" data-campo="aumentos" value="${dados[ano].aumentos}" onchange="atualizar()" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;"></td>
+                    <td><input type="number" data-ano="${ano}" data-campo="saidas" value="${dados[ano].saidas}" onchange="atualizar()" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;"></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+        
+        function calcular() {
+            const lucro = parseFloat(document.getElementById('lucroTrib').value) || 0;
+            const gastos = parseFloat(document.getElementById('gastosFinanc').value) || 0;
+            const depreciacoes = parseFloat(document.getElementById('depreciacoes').value) || 0;
+            
+            const ebitda = lucro + gastos + depreciacoes;
+            const taxa = 0.0421;
+            const majoracao = 1.5;
+            const beneficio = ebitda * taxa * majoracao;
+            const limite30 = ebitda * 0.30;
+            const deducao = Math.min(beneficio, 4000000, limite30);
+            const economia = deducao * 0.21;
+            const economiaMensal = economia / 12;
+            
+            document.getElementById('ebitda').textContent = '€ ' + formatarMoeda(ebitda);
+            document.getElementById('calc-ebitda').textContent = '€ ' + formatarMoeda(ebitda);
+            document.getElementById('beneficio').textContent = '€ ' + formatarMoeda(beneficio);
+            document.getElementById('limite30').textContent = '€ ' + formatarMoeda(limite30);
+            document.getElementById('deducao').textContent = '€ ' + formatarMoeda(deducao);
+            document.getElementById('campo774').textContent = '€ ' + formatarMoeda(deducao);
+            document.getElementById('cons-deducao').textContent = '€ ' + formatarMoeda(deducao);
+            document.getElementById('cons-economia').textContent = '€ ' + formatarMoeda(economia);
+            document.getElementById('cons-mensal').textContent = '€ ' + formatarMoeda(economiaMensal);
+        }
+        
+        function atualizar() {
+            // Atualizar dados dos anos
+            document.querySelectorAll('#tabela-anos input').forEach(input => {
+                const ano = input.dataset.ano;
+                const campo = input.dataset.campo;
+                dados[ano][campo] = parseFloat(input.value) || 0;
+            });
+            
+            // Calcular somatório
+            let somatorio = 0;
+            anos.forEach(ano => {
+                somatorio += dados[ano].aumentos - dados[ano].saidas;
+            });
+            document.getElementById('somatorio').textContent = '€ ' + formatarMoeda(somatorio);
+            
+            // Recalcular ICE
+            calcular();
+            
+            // Guardar localStorage
+            guardarLocal();
+        }
+        
+        function guardar() {
+            guardarLocal();
+            alert('✅ Dados guardados com sucesso!');
+        }
+        
+        function guardarLocal() {
+            const dadosGlobais = {
+                empresa: document.getElementById('empresa').value,
+                nif: document.getElementById('nif').value,
+                tipo: document.getElementById('tipo').value,
+                lucroTrib: document.getElementById('lucroTrib').value,
+                gastosFinanc: document.getElementById('gastosFinanc').value,
+                depreciacoes: document.getElementById('depreciacoes').value,
+                dados: dados
+            };
+            localStorage.setItem('simulador-ice', JSON.stringify(dadosGlobais));
+        }
+        
+        function limpar() {
+            if (confirm('Tem a certeza que quer limpar TODOS os dados?')) {
+                anos.forEach(ano => {
+                    dados[ano] = { aumentos: 0, saidas: 0 };
+                });
+                document.getElementById('empresa').value = 'Eixos, Lda';
+                document.getElementById('nif').value = '510123456';
+                document.getElementById('lucroTrib').value = '21700';
+                document.getElementById('gastosFinanc').value = '0';
+                document.getElementById('depreciacoes').value = '5000';
+                localStorage.removeItem('simulador-ice');
+                criarTabelaAnos();
+                calcular();
+                atualizar();
+            }
+        }
+        
+        function carregarDados() {
+            const dadosSalvos = localStorage.getItem('simulador-ice');
+            if (dadosSalvos) {
+                const obj = JSON.parse(dadosSalvos);
+                document.getElementById('empresa').value = obj.empresa;
+                document.getElementById('nif').value = obj.nif;
+                document.getElementById('tipo').value = obj.tipo;
+                document.getElementById('lucroTrib').value = obj.lucroTrib;
+                document.getElementById('gastosFinanc').value = obj.gastosFinanc;
+                document.getElementById('depreciacoes').value = obj.depreciacoes;
+                
+                anos.forEach(ano => {
+                    if (obj.dados[ano]) {
+                        dados[ano] = obj.dados[ano];
+                    }
+                });
+            }
+        }
+        
+        window.onload = function() {
+            carregarDados();
+            criarTabelaAnos();
+            calcular();
+            atualizar();
+        };
+    </script>
+</body>
+</html>
